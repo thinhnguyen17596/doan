@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="my_user_view_search" model="ir.ui.view">
+            <field name="name">my.user.search</field>
+            <field name="model">my.user</field>
+            <field name="arch" type="xml">
+                <search string="Khách trọ">
+                    <field name="user_name" string="Khách trọ" filter_domain="[('user_name','ilike',self)]"/>
+                    <field name="email" string="Email"/>
+                    <field name="room_ids" string="Phòng"/>
+                    <field name="phone_number" string="Số điện thoại"/>
+                    <field name="identity" string="Số CMT/CCCD"/>
+                    <separator/>
+                    <!-- <filter name="archived" string="Archived" domain="[('active', '=', False)]"/> -->
+                    <!-- <group expand="0" string="Group By">
+                        <filter name="group_room" string="Theo phòng" domain="[]" context="{'group_by':'identity'}"/>
+                    </group> -->
+                    <!-- <searchpanel>
+                        <field name="identity" icon="fa-building" enable_counters="1"/>
+                    </searchpanel> -->
+                </search>
+             </field>
+        </record>
+
+        <record id="my_user_view_tree" model="ir.ui.view">
+            <field name="name">my_user_view_tree</field>
+            <field name="model">my.user</field>
+            <field name="arch" type="xml">
+                <tree string="my_user_tree">
+                    <field name="user_name"/>
+                    <field name="email"/>
+                    <field name="dob"/>
+                    <field name="phone_number"/>
+                    <field name="identity"/>
+                    <field name="room_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+                </tree>
+            </field>
+        </record>
+        
+        <record id="my_user_view_form" model="ir.ui.view">
+            <field name="name">my_user_view_form</field>
+            <field name="model">my.user</field>
+            <field name="arch" type="xml">
+                <form string="my_user_form">
+                    <sheet>
+                        <separator colspan="1" class="text-center"
+                                string="Thông tin chi tiết khách thuê trọ" />
+                        <newline />
+                        <field name="image" widget="image" class = "oe_avatar"/>
+                        <div class="oe_title">
+                                <label for="user_name" string="Tên người thuê" />
+                                <h2>  <field name="user_name" /> </h2>
+
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="email"/>
+                                <field name="dob"/>
+                                <field name="user_id" groups="motel_management.group_motel_manager"/>
+                                
+                            </group>
+                            <group>
+                                <field name="phone_number"/>
+                                <field name="identity"/>
+                                <field name="is_manager" invisible = 'True'/>
+                                <field name="room_ids" widget="many2many_tags" options="{'color_field': 'color'}"
+                                attrs="{'readonly':[('is_manager', '=', False)]}"
+                                />
+                            </group>
+                            
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="my_user_view_kanban" model="ir.ui.view">
+        <field name="name">my.user.view.kanban</field>
+        <field name="model">my.user</field>
+        <field name="arch" type="xml">
+            <kanban >
+<!--                <field name="user_name"/>-->
+                <field name="image"/>
+                <field name="id"/>
+                <field name="room_ids" options="{'color_field': 'color'}" widget="many2many_tags" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_collaborators_kanban">
+                            <t t-if="record.image.raw_value">
+                                <div class="o_kanban_image_fill_left d-none d-md-block"
+                                     t-attf-style="background-image:url('#{kanban_image('my.user', 'image', record.id.raw_value)}')"/>
+                            </t>
+                            <t t-else="">
+                                <img class="o_kanban_image" alt="Avatar" t-att-src='_s + "/hr/static/src/img/default_image.png"'/>
+                            </t>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title"><field name="display_name"/></strong>
+                                <div class="o_kanban_tags_section"/>
+                                   <ul>
+                                        <li>Email : <field name="email"/></li>
+                                        <li>
+                                            Phòng : <field name="room_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                        </li>
+                                   </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+<!--        -->
+<!--        <record id="my_user_search_view" model="ir.ui.view">-->
+<!--           <field name="name">my user search view</field>-->
+<!--           <field name="model">my.user</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <search string="Search User">-->
+<!--                    <field name="user_name"/>-->
+<!--&lt;!&ndash;                    <field name="user_name" string="Tim ten" domain="[('user_name','ilike','Van Ha')]"/>&ndash;&gt;-->
+<!--                    <filter string="Tim ten" name="tim_ten" domain="[('user_name','ilike','Van Ha')]"/>-->
+<!--            </search>-->
+<!--           </field>-->
+<!--        </record>-->
+        
+        
+        
+        <record id="my_user_action" model="ir.actions.act_window">
+            <field name="name">Người thuê</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">my.user</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+        <menuitem id="my_user_child_menu_id" parent="main_menu_my_user" action="my_user_action"
+                  name="Khách thuê trọ" sequence="1"/>
+    
+    </data>
+</odoo>

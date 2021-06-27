@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <record id="invoice_detail_view_tree" model="ir.ui.view">
+            <field name="name">invoice_detail_view_tree</field>
+            <field name="model">invoice.detail</field>
+            <field name="arch" type="xml">
+                <tree string="invoice_detail_tree">
+                    <field name="name"/>
+                    <field name="num_elec_begin_month"/>
+                    <field name="num_elec_end_month"/>
+                    <field name="num_water_begin_month"/>
+                    <field name="num_water_end_month"/>
+                </tree>
+            </field>
+        </record>
+        <record id="invoice_detail_view_form" model="ir.ui.view">
+            <field name="name">invoice_detail_view_form</field>
+            <field name="model">invoice.detail</field>
+            <field name="arch" type="xml">
+                
+                <form string="invoice_detail_form">
+                    
+                    <sheet>
+                         <separator colspan="1" class="text-center"
+                                string="Thông tin chi tiết hoá đơn" />
+                        <newline />
+                        <h3 class="text-center">
+                            <label for="name" string="Tên chi tiết hoá đơn" />
+                            <field name="name"/>
+                            
+                        </h3>
+                        <group>
+                            <group>
+                                
+                                <field name="num_elec_begin_month"/>
+                                <field name="num_elec_end_month"/>
+                                <field name="total_elec"/>
+                                <field name="is_old_invoice" invisible="True"/>
+                                <field name="id_invoice" readonly="1"/>
+                                
+                            </group>
+                            <group>
+                                <field name="num_water_begin_month"/>
+                                <field name="num_water_end_month"/>
+                                <field name="total_water"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="invoice_detail_action" model="ir.actions.act_window">
+            <field name="name">Chi tiết hoá đơn</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">invoice.detail</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="invoice_detail_child_menu_id" parent="main_menu_invoice" action="invoice_detail_action"
+                  name="Chi tiết hoá đơn" sequence="1"/>
+    
+    </data>
+</odoo>

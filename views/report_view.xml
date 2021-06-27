@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_view_tree" model="ir.ui.view">
+            <field name="name">report_view_tree</field>
+            <field name="model">report</field>
+            <field name="arch" type="xml">
+                <tree string="report_tree" decoration-success="state == 'success'"
+                      decoration-info="state == 'new'"
+                      decoration-warning="state == 'process'">
+                    <field name="name"/>
+                    <field name="room_id"/>
+                    <field name="date" widget="date"/>
+                    <field name="user_name"/>
+                    <field name="description"/>
+                    <field name="note"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="report_view_form" model="ir.ui.view">
+            <field name="name">report_view_form</field>
+            <field name="model">report</field>
+            <field name="arch" type="xml">
+                <form string="my_report_form">
+                    <header>
+                        <button name="process_report" string="Đã sử lý" states="process"
+                                type="object" class="oe_highlight" confirm="Are you sure you want to do this?"/>
+                        <button name="process_report" string="Mới tạo" states="success"
+                                type="object" class="oe_highlight" confirm="Are you sure you want to do this?"/>
+                        <button name="process_report" string="Đang sử lý" states="new"
+                                type="object" class="oe_highlight" confirm="Are you sure you want to do this?"/>
+                        <field name="state" widget="statusbar" statusbar_visible="new,process,success"/>
+                    </header>
+                    <sheet>
+                        <separator colspan="1" class="text-center"
+                                string="Thông tin báo cáo" />
+                            <newline />
+                        <h3>
+                            <label for="name" string="Tên báo cáo" />
+                            <field name="name"/>
+                        </h3>
+                        <group>
+                            <group>
+                                <field name="room_id"/>
+                                <field name="user_name"/>
+                            
+                            </group>
+                            <group>
+                                <field name="date" widget="date"/>
+                                <!-- widget="many2many_binary" -->
+                                <field name="image" widget="many2many_binary" style="width:150px;height:100px;"/> 
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description"/>
+                            
+                            </page>
+                            <page string="Note">
+                                <field name="note"/>
+                            
+                            </page>
+                        
+                        </notebook>
+                    
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+        <record id="report_action" model="ir.actions.act_window">
+            <field name="name">Báo cáo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">report</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem id="report_child_menu_id" parent="main_menu_report" action="report_action"
+                  name="Báo cáo" sequence="1"/>
+    
+    </data>
+</odoo>

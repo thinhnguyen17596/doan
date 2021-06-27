@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <record id="room_motel_view_tree" model="ir.ui.view">
+            <field name="name">room_motel_view_tree</field>
+            <field name="model">room.motel</field>
+            <field name="arch" type="xml">
+                <tree string="room_motel_tree"
+                decoration-success="sum_user == 0" decoration-warning="sum_user &gt;= 1"
+                >
+                    <field name="name"/>
+                    <field name="phone_number"/>
+                    <field name="id_user"/>
+                    <field name="sum_user"/>
+                    <field name="user_ids"/>
+                    <field name="id_price"/>
+                </tree>
+            </field>
+        </record>
+        <record id="room_motel_view_form" model="ir.ui.view">
+            <field name="name">room_motel_view_form</field>
+            <field name="model">room.motel</field>
+            <field name="arch" type="xml">
+                <form string="room_motel_form">
+                    <sheet>
+                        <separator colspan="4" class="text-center"
+                                string="Thông tin chi tiết phòng trọ" />
+                            <newline />
+                        <group>
+                            
+                            <group>
+                                <field name="name"/>
+                                <field name="phone_number"/>
+                            </group>
+                            <group>
+                                <field name="id_user"/>
+                                <field name="id_price"/>
+                            </group>
+                            
+                            <field name="user_ids"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="room_motel_view_graph">
+        <field name="name">asset.revenue.report.graph</field>
+        <field name="model">room.motel</field>
+        <field name="arch" type="xml">
+            <graph string="Phân tích phòng trọ">
+                <field name="sum_user" type="measure"/>
+                <field name="name" type="row"/>
+            </graph>
+        </field>
+    </record>
+        
+        <record id="room_motel_action" model="ir.actions.act_window">
+            <field name="name">Phòng trọ</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">room.motel</field>
+            <field name="view_mode">tree,form,graph</field>
+        </record>
+
+        <menuitem id="room_motel_child_menu_id" parent="main_menu_room_motel" action="room_motel_action"
+                  name="Phòng trọ" sequence="1"/>
+    
+    </data>
+</odoo>
