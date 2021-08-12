@@ -6,9 +6,9 @@
             <field name="model">my.user</field>
             <field name="arch" type="xml">
                 <search string="Khách trọ">
+                    <field name="room_ids" string="Phòng"/>
                     <field name="user_name" string="Khách trọ" filter_domain="[('user_name','ilike',self)]"/>
                     <field name="email" string="Email"/>
-                    <field name="room_ids" string="Phòng"/>
                     <field name="phone_number" string="Số điện thoại"/>
                     <field name="identity" string="Số CMT/CCCD"/>
                     <separator/>
@@ -45,9 +45,9 @@
                 <form string="my_user_form">
                     <sheet>
                         <separator colspan="1" class="text-center"
-                                string="Thông tin chi tiết khách thuê trọ" />
+                                string="THÔNG TIN KHÁCH THUÊ TRỌ" />
                         <newline />
-                        <field name="image" widget="image" class = "oe_avatar"/>
+                        <field name="image_1920" widget="image" class = "oe_avatar" options='{"zoom": true}'/>
                         <div class="oe_title">
                                 <label for="user_name" string="Tên người thuê" />
                                 <h2>  <field name="user_name" /> </h2>
@@ -73,6 +73,11 @@
                         </group>
                         
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
@@ -82,16 +87,15 @@
         <field name="model">my.user</field>
         <field name="arch" type="xml">
             <kanban >
-<!--                <field name="user_name"/>-->
-                <field name="image"/>
+                <field name="image_1920" options='{"zoom": true}'/>
                 <field name="id"/>
                 <field name="room_ids" options="{'color_field': 'color'}" widget="many2many_tags" />
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_collaborators_kanban">
-                            <t t-if="record.image.raw_value">
+                            <t t-if="record.image_1920.raw_value">
                                 <div class="o_kanban_image_fill_left d-none d-md-block"
-                                     t-attf-style="background-image:url('#{kanban_image('my.user', 'image', record.id.raw_value)}')"/>
+                                     t-attf-style="background-image:url('#{kanban_image('my.user', 'image_1920', record.id.raw_value)}')"/>
                             </t>
                             <t t-else="">
                                 <img class="o_kanban_image" alt="Avatar" t-att-src='_s + "/hr/static/src/img/default_image.png"'/>
@@ -112,19 +116,6 @@
                 </kanban>
             </field>
         </record>
-<!--        -->
-<!--        <record id="my_user_search_view" model="ir.ui.view">-->
-<!--           <field name="name">my user search view</field>-->
-<!--           <field name="model">my.user</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <search string="Search User">-->
-<!--                    <field name="user_name"/>-->
-<!--&lt;!&ndash;                    <field name="user_name" string="Tim ten" domain="[('user_name','ilike','Van Ha')]"/>&ndash;&gt;-->
-<!--                    <filter string="Tim ten" name="tim_ten" domain="[('user_name','ilike','Van Ha')]"/>-->
-<!--            </search>-->
-<!--           </field>-->
-<!--        </record>-->
-        
         
         
         <record id="my_user_action" model="ir.actions.act_window">

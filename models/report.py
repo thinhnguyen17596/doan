@@ -7,8 +7,9 @@ class Report(models.Model):
 	
 	
 	name = fields.Char(string="Tên báo cáo", readonly=True)
-	room_id = fields.Many2one(string="Phòng", comodel_name="room.motel")
-	description = fields.Text(string="Nội dung")
+	room_id = fields.Many2one(
+		string="Phòng", comodel_name="room.motel", required=True)
+	description = fields.Text(string="Nội dung", required=True)
 	user_name = fields.Many2one(string= "Họ tên người báo cáo", comodel_name="my.user")
 	image = fields.Many2many('ir.attachment', string='Hình ảnh')
 	date = fields.Datetime(string="Ngày", default=datetime.now())

@@ -5,14 +5,19 @@ class RoomMotel(models.Model):
 	_name = "room.motel"
 	_inherit = ['mail.thread', 'mail.activity.mixin']
 	
-	name = fields.Char(string="Tên phòng",track_visibility='always')
+	name = fields.Char(string="Tên phòng",
+	                   track_visibility='always', required=True)
 	phone_number = fields.Char(string="Số điện thoại", related = "id_user.phone_number")
-	id_user = fields.Many2one(string="Chủ phòng", comodel_name="my.user")
+	id_user = fields.Many2one(
+		string="Chủ phòng", comodel_name="my.user", required=True)
 	sum_user = fields.Integer(string="Tổng thành viên", compute='get_sum_user', store=True,track_visibility='always')
 	user_ids = fields.Many2many(comodel_name='my.user', relation='my_user_room_motel_rel',
 	                            column1='room_motel_id', column2='my_user_id', string='Người trọ',track_visibility='always')
-	id_price = fields.Many2one(string="Bảng giá", comodel_name="my.price")
+	id_price = fields.Many2one(
+		string="Bảng giá", comodel_name="my.price", required=True)
 	color = fields.Integer()
+	image_1920 = fields.Image()
+
 	
 	@api.depends('user_ids')
 	def get_sum_user(self):

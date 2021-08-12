@@ -39,7 +39,7 @@
                     <field name="bill_room"/>
                     <field name="bill_internet"/>
                     <field name="total_amount" sum="Total"/>
-                    <field name="state"/>
+                    <field name="state" widget="badge" decoration-success="state == 'paid'" decoration-danger="state == 'unpaid'"/>
                     <field name="id_invoice_detail" widget="many2many_tags"/>
                     <field name="currency_id" invisible="1"/>
                 </tree>
@@ -67,9 +67,7 @@
                         attrs="{'invisible': [('state','=','paid')]}"/>
                          <separator colspan="1" class="text-center"
                                 string="Thông tin hoá đơn" />
-                        <newline />
-                        <!-- <widget name="web_ribbon" title="Paid"/> -->
-                        
+                        <newline />                        
                         <h3 class="text-center">
                             <label for="name" string="Tên hoá đơn" />
                             <field name="name"/>
@@ -110,13 +108,35 @@
                 </form>
             </field>
         </record>
+        <record model="ir.ui.view" id="my_invoice_view_graph">
+            <field name="name">my.invoice.report.graph</field>
+            <field name="model">my.invoice</field>
+            <field name="arch" type="xml">
+                <graph string="Phân tích hoá đơn">
+                    <field name="room_id" />
+                    <field name="total_amount" type="measure" />
+                    <field name="date" type="row"/>
+                </graph>
+            </field>
+        </record>
+        <record id="view_my_invoice_task_pivot" model="ir.ui.view">
+            <field name="name">my.invoice.pivot</field>
+            <field name="model">my.invoice</field>
+            <field name="arch" type="xml">
+                <pivot string="Hoá đơn">
+                    <field name="room_id" type="row"/>
+                    <field name="date" type="col"/>
+                    <field name="total_amount" type="measure"/>
+                </pivot>
+            </field>
+        </record>
         
         <record id="my_invoice_action" model="ir.actions.act_window">
             <field name="name">Hoá đơn</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">my.invoice</field>
-            <field name="view_mode">tree,form</field>
-            <field name="context">{'search_default_state' : 'unpaid'}</field>
+            <field name="view_mode">tree,form,graph,pivot</field>
+            <!-- <field name="context">{'search_default_state' : 'unpaid'}</field> -->
         </record>
 
         <menuitem id="my_invoice_child_menu_id" parent="main_menu_invoice" action="my_invoice_action"

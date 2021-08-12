@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <record id="room_motel_view_search" model="ir.ui.view">
+                <field name="name">room.motel.search</field>
+                <field name="model">room.motel</field>
+                <field name="arch" type="xml">
+                    <search string="Phòng">
+                        <field name="name" string="Phòng trọ" filter_domain="[('name','ilike',self)]"/>
+                        <group expand="0" string="Group By">
+                            <filter name="group_room_lt" string="Phòng không có người" domain="[('sum_user','&lt;', 0)]"/>
+                            <filter name="group_room_gt" string="Phòng đông người (lớn hơn 3)" domain="[('sum_user','&gt;', 3)]"/>
+                        </group>
+                    </search>
+                </field>
+        </record>
+        <record id="room_motel_view_kanban" model="ir.ui.view">
+        <field name="name">room_motel.view.kanban</field>
+        <field name="model">room.motel</field>
+        <field name="arch" type="xml">
+            <kanban >
+                <field name="image_1920" options='{"zoom": true}'/>
+                <field name="name"/>
+                <field name="phone_number"/>
+                <field name="id_user"/>
+                <field name="sum_user"/>
+                <field name="id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_collaborators_kanban">
+                            <t t-if="record.image_1920.raw_value">
+                                <div class="o_kanban_image_fill_left d-none d-md-block"
+                                     t-attf-style="background-image:url('#{kanban_image('room.motel', 'image_1920', record.id.raw_value)}')"/>
+                            </t>
+                            <t t-else="">
+                                <img class="o_kanban_image" alt="Avatar" t-att-src='_s + "/hr/static/src/img/default_image.png"'/>
+                            </t>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title"><field name="display_name"/></strong>
+                                <div class="o_kanban_tags_section"/>
+                                   <ul>
+                                        <li>Chủ phòng  : <field name="id_user"/></li>
+                                        <li>Số điện thoại  : <field name="phone_number"/></li>
+                                        <li>Số thành viên  : <field name="sum_user"/></li>
+                                   </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
         
         <record id="room_motel_view_tree" model="ir.ui.view">
             <field name="name">room_motel_view_tree</field>
@@ -27,6 +76,7 @@
                         <separator colspan="4" class="text-center"
                                 string="Thông tin chi tiết phòng trọ" />
                             <newline />
+                        <field name="image_1920" widget="image" class = "oe_avatar" options='{"zoom": true}'/>
                         <group>
                             
                             <group>
@@ -50,21 +100,23 @@
             </field>
         </record>
         <record model="ir.ui.view" id="room_motel_view_graph">
-        <field name="name">asset.revenue.report.graph</field>
-        <field name="model">room.motel</field>
-        <field name="arch" type="xml">
-            <graph string="Phân tích phòng trọ">
-                <field name="sum_user" type="measure"/>
-                <field name="name" type="row"/>
-            </graph>
-        </field>
-    </record>
+            <field name="name">asset.revenue.report.graph</field>
+            <field name="model">room.motel</field>
+            <field name="arch" type="xml">
+                <graph string="Phân tích phòng trọ">
+                    <field name="sum_user" type="measure"/>
+                    <field name="name" type="row"/>
+                </graph>
+            </field>
+        </record>
         
         <record id="room_motel_action" model="ir.actions.act_window">
             <field name="name">Phòng trọ</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">room.motel</field>
-            <field name="view_mode">tree,form,graph</field>
+            <field name="view_mode">kanban,tree,form,graph</field>
+            <field name="context">{'search_default_group_room_lt' : 1}</field>
+
         </record>
 
         <menuitem id="room_motel_child_menu_id" parent="main_menu_room_motel" action="room_motel_action"
