@@ -5,16 +5,14 @@
             <field name="name">report_view_tree</field>
             <field name="model">report</field>
             <field name="arch" type="xml">
-                <tree string="report_tree" decoration-success="state == 'success'"
-                      decoration-info="state == 'new'"
-                      decoration-warning="state == 'process'">
+                <tree string="report_tree">
                     <field name="name"/>
                     <field name="room_id"/>
                     <field name="date" widget="date"/>
                     <field name="user_name"/>
                     <field name="description"/>
                     <field name="note"/>
-                    <field name="state"/>
+<!--                    <field name="state"/>-->
                 </tree>
             </field>
         </record>
@@ -24,15 +22,15 @@
             <field name="model">report</field>
             <field name="arch" type="xml">
                 <form string="my_report_form">
-                    <header>
-                        <button name="process_report" string="Đã sử lý" states="process"
-                                type="object" class="oe_highlight" confirm="Are you sure you want to do this?"/>
-                        <button name="process_report" string="Mới tạo" states="success"
-                                type="object" class="oe_highlight" confirm="Are you sure you want to do this?"/>
-                        <button name="process_report" string="Đang sử lý" states="new"
-                                type="object" class="oe_highlight" confirm="Are you sure you want to do this?"/>
-                        <field name="state" widget="statusbar" statusbar_visible="new,process,success"/>
-                    </header>
+<!--                    <header>-->
+<!--                        <button name="process_report" string="Đã sử lý" states="process"-->
+<!--                                type="object" class="oe_highlight" confirm="Are you sure you want to do this?"/>-->
+<!--                        <button name="process_report" string="Mới tạo" states="success"-->
+<!--                                type="object" class="oe_highlight" confirm="Are you sure you want to do this?"/>-->
+<!--                        <button name="process_report" string="Đang sử lý" states="new"-->
+<!--                                type="object" class="oe_highlight" confirm="Are you sure you want to do this?"/>-->
+<!--                        <field name="state" widget="statusbar" statusbar_visible="new,process,success"/>-->
+<!--                    </header>-->
                     <sheet>
                         <separator colspan="1" class="text-center"
                                 string="Thông tin báo cáo" />
@@ -45,12 +43,14 @@
                             <group>
                                 <field name="room_id"/>
                                 <field name="user_name"/>
-                            
+                                <field name="monetary_penalty"/>
+
                             </group>
                             <group>
                                 <field name="date" widget="date"/>
                                 <!-- widget="many2many_binary" -->
-                                <field name="image" widget="many2many_binary" style="width:150px;height:100px;"/> 
+                                <field name="image2" widget="image" style="width:150px;height:100px;"/>
+                                <field name="image" widget="many2many_binary" style="width:150px;height:100px;"/>
                             </group>
                         </group>
                         <notebook>
@@ -58,10 +58,10 @@
                                 <field name="description"/>
                             
                             </page>
-                            <page string="Note">
-                                <field name="note"/>
-                            
-                            </page>
+<!--                            <page string="Note">-->
+<!--                                <field name="note"/>-->
+<!--                            -->
+<!--                            </page>-->
                         
                         </notebook>
                     
@@ -74,16 +74,28 @@
                 </form>
             </field>
         </record>
+
+        <record model="ir.ui.view" id="report_view_graph">
+            <field name="name">asset.revenue.report.graph</field>
+            <field name="model">report</field>
+            <field name="arch" type="xml">
+                <graph string="Phân tích sự cố">
+
+                    <field name="monetary_penalty" type="measure"/>
+                    <field name="room_id" type="row"/>
+                </graph>
+            </field>
+        </record>
         
         <record id="report_action" model="ir.actions.act_window">
-            <field name="name">Báo cáo</field>
+            <field name="name">Báo cáo sự cố</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">report</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,graph</field>
         </record>
         
         <menuitem id="report_child_menu_id" parent="main_menu_report" action="report_action"
-                  name="Báo cáo" sequence="1"/>
+                  name="Báo cáo sự cố" sequence="1"/>
     
     </data>
 </odoo>

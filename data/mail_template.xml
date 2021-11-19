@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <!--Creating Email Template in Odoo-->
+    <data noupdate="1">
+        <record id="invoice_email_template" model="mail.template">
+            <field name="name">Invoice: Send by email</field>
+            <field name="model_id" ref="motel_management.model_my_invoice"/>
+            <field name="email_from">${object.user_id.email_formatted |safe}</field>
+            <field name="email_to">${object.room_id.id_user.email}</field>
+            <field name="subject">Thông báo đóng tiền nhà trọ (Ref ${object.name})</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear ${object.room_id.id_user.user_name}
+                        <br /><br />
+                        Bạn có hoá đơn ${object.name} chưa thanh toán .
+                        Vui lòng kiểm tra hoá đơn đính kèm và thanh toán chúng.
+                        <br /><br />
+                        Chúc bạn một ngày vui vẻ.
+                    </p>
+                </div>
+            </field>
+<!--            <field name="report_template" ref="report_patient_card"/>-->
+            <field name="report_name">Hoá đơn_${(object.name)}</field>
+        </record>
+    </data>
+
+</odoo>

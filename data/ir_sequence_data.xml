@@ -19,7 +19,7 @@
         <record id="motel_report_code_sequence" model="ir.sequence">
             <field name="name">Report</field>
             <field name="code">report</field>
-            <field name="prefix">Report/</field>
+            <field name="prefix">Sự cố/</field>
             <field name="padding">3</field>
         </record>
         

@@ -28,6 +28,7 @@
             <field name="perm_write" eval="True"/>
             <field name="perm_unlink" eval="False"/>
         </record>
+
         <record id="motel_my_user_rule_manager" model="ir.rule">
             <field name="name">motel manager</field>
             <field name="model_id" ref="model_my_user"/>

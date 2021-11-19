@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="report_trouble"
+                model="report"
+                string="Báo cáo sự cố"
+                name="motel_management.report_trouble_view"
+                file="Báo cáo sự cố"
+                report_type="qweb-pdf"/>
+
+        <template id="report_trouble_view">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                    
+                        <h3>Biên bản phiếu phạt :
+                            <span t-field="o.name"/>
+                        </h3>
+                        <br/>
+                        <div class="row">
+                            <div class="col-6">
+                                Phòng thuê:
+                                <span t-field="o.room_id.name"/>
+                            </div>
+                            <div class="col-6">
+                                Chủ phòng:
+                                <span t-field="o.user_name"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                Số tiền phạt:
+                                <span t-field="o.monetary_penalty"/>
+                            </div>
+                            <div class="col-6">
+                                Thời gian: <span t-field="o.date" t-options='{"widget": "date"}'/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <strong><b>Nội dung sự cố</b></strong>
+                                <span t-field="o.description" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <strong><b>Hình ảnh</b></strong>
+                            </div>
+                            <div class="col-6">
+                                <img t-attf-src="data:image/*;base64,{{o.image2}}" style="max-height:10cm; max-width:10cm;"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="font-size:18px; color : red">
+                        Tiền phạt sẽ được tính vào hoá đơn cuối tháng.
+                    </div>
+                </t>
+            </t>
+        </t>
+        </template>
+
+    </data>
+</odoo>

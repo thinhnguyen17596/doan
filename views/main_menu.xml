@@ -33,14 +33,14 @@
 <!--    />-->
     
     
-    <menuitem name="Báo cáo"
+    <menuitem name="Báo cáo sự cố"
               id="main_menu_report"
               parent="main_menu_motel_management"
               sequence='4'
     />
     
     
-    <menuitem name="Configuration"
+    <menuitem name="Cấu hình"
               id="main_menu_config"
               parent="main_menu_motel_management"
               sequence='5'

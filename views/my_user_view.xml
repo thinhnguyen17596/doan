@@ -58,16 +58,14 @@
                             <group>
                                 <field name="email"/>
                                 <field name="dob"/>
-                                <field name="user_id" groups="motel_management.group_motel_manager"/>
+                                <field name="contract"/>
+                                <field name="user_id" invisible="1"/>
                                 
                             </group>
                             <group>
                                 <field name="phone_number"/>
                                 <field name="identity"/>
-                                <field name="is_manager" invisible = 'True'/>
-                                <field name="room_ids" widget="many2many_tags" options="{'color_field': 'color'}"
-                                attrs="{'readonly':[('is_manager', '=', False)]}"
-                                />
+                                <field name="room_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                             </group>
                             
                         </group>
@@ -106,7 +104,7 @@
                                    <ul>
                                         <li>Email : <field name="email"/></li>
                                         <li>
-                                            Phòng : <field name="room_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                            Phòng : <field name="room_ids"/>
                                         </li>
                                    </ul>
                                 </div>

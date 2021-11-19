@@ -16,6 +16,8 @@
         'security/security_data.xml',
         'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
+        'data/ir_cron_job_auto_send_email.xml',
+        'data/mail_template.xml',
         'views/main_menu.xml',
         'views/my_user_view.xml',
         'views/report_view.xml',
@@ -23,7 +25,9 @@
         'views/my_price_view.xml',
         'views/invoice_view.xml',
         'views/invoice_detail_view.xml',
-        
+        'reports/invoice_report.xml',
+        'reports/report_trouble.xml',
+
     ],
     'installable': True,
     'application': True,

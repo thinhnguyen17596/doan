@@ -10,16 +10,20 @@ class Report(models.Model):
 	room_id = fields.Many2one(
 		string="Phòng", comodel_name="room.motel", required=True)
 	description = fields.Text(string="Nội dung", required=True)
-	user_name = fields.Many2one(string= "Họ tên người báo cáo", comodel_name="my.user")
-	image = fields.Many2many('ir.attachment', string='Hình ảnh')
+	user_name = fields.Many2one(string="Chủ phòng", comodel_name="my.user", related='room_id.id_user')
+	image = fields.Many2many('ir.attachment', string='Video hoặc hình ảnh khác')
+	image2 = fields.Image(string='Hình ảnh')
 	date = fields.Datetime(string="Ngày", default=datetime.now())
 	note = fields.Char(string="Chú ý")
-	state = fields.Selection(selection=[('new', 'New'), ('process', 'Processing'),('success', 'Success')],
+	state = fields.Selection(selection=[('new', 'Mới'), ('process', 'Đang xử lý'),('success', 'Đã xử lý')],
 	                         default='new', string='Trạng thái')
+	monetary_penalty = fields.Float(string='Tiền phạt', default=0)
 	
 	@api.model
 	def create(self, vals):
-		vals['name'] = self.env['ir.sequence'].next_by_code('report') or 'New'
+		sequence = self.env['ir.sequence'].next_by_code('report') or 'New'
+		room_name = self.env['room.motel'].browse(vals.get('room_id')).name
+		vals['name'] = sequence + ' ' +  room_name
 		return super(Report, self).create(vals)
 	
 	def process_report(self):

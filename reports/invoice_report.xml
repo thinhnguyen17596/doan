@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="report_my_invoice"
+                model="my.invoice"
+                string="Hóa đơn"
+                name="motel_management.report_my_invoice_view"
+                file="Hóa đơn"
+                report_type="qweb-pdf"/>
+
+        <template id="report_my_invoice_view">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="o">
+                    <style>.table tr td{
+                    border: 1px solid gray;
+                    text-align: center;
+                    }</style>
+                    <div class="page">
+                    
+                        <h2>Hóa đơn:
+                            <span t-field="o.name"/>
+                        </h2>
+                        <br/>
+                        <div class="row">
+                            <div class="col-6">
+                                Phòng thuê:
+                                <span t-field="o.room_id.name"/>
+                            </div>
+                            <div class="col-6">
+                                Địa chỉ phòng:
+                                <span t-field="o.room_id.id_price.name"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                Chủ phòng:
+                                <span t-field="o.id_user.user_name"/>
+                            </div>
+                            <div class="col-6">
+                                Số điện thoại:
+                                <span t-field="o.id_user.phone_number"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                Thời gian: <span t-field="o.date" t-options='{"widget": "date"}'/>
+                            </div>
+                        </div>
+
+
+                        <strong><b>BẢNG GIÁ THUÊ:</b></strong>
+                        <table class="table">
+                            <tr>
+                                <td>Giá điện/số</td>
+                                <td>Giá nước/khối</td>
+                                <td>Giá internet/phòng</td>
+                                <td>Giá phòng</td>
+                            </tr>
+                            <tr >
+                                <td><span t-field="o.room_id.id_price.electricity_price" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                <td><span t-field="o.room_id.id_price.waters_price" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                <td><span t-field="o.room_id.id_price.internet_price" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                                <td><span t-field="o.room_id.id_price.room_price" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                            </tr>
+                        </table>
+
+                        <strong><b>CHI TIẾT HOÁ ĐƠN</b></strong>
+                        <table class="table">
+                            <tr>
+                                <td>Tên hóa đơn</td>
+                                <td>Số điện đầu tháng</td>
+                                <td>Số điện cuối tháng</td>
+                                <td>Số mước đầu tháng</td>
+                                <td>Số mước cuối tháng</td>
+                            </tr>
+                            <tr t-foreach="o.id_invoice_detail" t-as="line">
+                                <td><span t-field="line.name"/></td>
+                                <td><span t-field="line.num_elec_begin_month"/></td>
+                                <td><span t-field="line.num_elec_end_month"/></td>
+                                <td><span t-field="line.num_water_begin_month"/></td>
+                                <td><span t-field="line.num_water_end_month"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Tiền điện</td>
+                                <td colspan="2" style="text-align: right;"><span t-field="o.bill_electricity" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Tiền nước</td>
+                                <td colspan="2" style="text-align: right;"><span t-field="o.bill_waters" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Tiền Internet</td>
+                                <td colspan="2" style="text-align: right;"><span t-field="o.bill_internet" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Tiền phòng</td>
+                                <td colspan="2" style="text-align: right;"><span t-field="o.bill_room" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">Tiền thêm</td>
+                                <td colspan="2" style="text-align: right;"><span t-field="o.bill_advance" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                            </tr>
+                            <tr class="text-right o_price_total">                            
+                                <td colspan="3" style="font-size:18px; color : red" >Tổng tiền</td>
+                                <td colspan="2" style="font-size:18px; color : red; text-align: right;"><span t-field="o.total_amount" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="font-size:18px; color : red">
+                        Vui lòng thanh toán qua số tài khoản <b>9704180102929528</b> BIDV
+                        Và điền vào nội dung tên phòng và địa chỉ xin cảm ơn.
+                    </div>
+                </t>
+            </t>
+        </t>
+        </template>
+
+    </data>
+</odoo>

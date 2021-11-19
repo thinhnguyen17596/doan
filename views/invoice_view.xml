@@ -56,7 +56,7 @@
                         <button name="process_invoice" string="Chưa thanh toán" states="paid"
                                 type="object" class="oe_highlight" confirm="Bạn có chắc muốn huỷ thanh toán?" groups="motel_management.group_motel_manager"/>
                         
-                        <button name="alo" string="Thanh toán hoá đơn"
+                        <button name="create_payment" string="Thanh toán hoá đơn"
                                 type="object" class="oe_highlight" />
                         <field name="state" widget="statusbar" statusbar_visible="unpaid,paid"/>
                     </header>
@@ -77,11 +77,14 @@
                                 <field name="room_id"/>
                                 <field name="date" widget="date"/>
                                 <field name="bill_electricity"/>
+                                <field name="date_deadline"/>
+                                <field name="report_id"/>
                             </group>
                             <group>
                                 <field name="bill_waters"/>
-                                <field name="bill_room"/>
+                                <field name="bill_room" force_save="1"/>
                                 <field name="bill_internet"/>
+                                <field name="bill_advance"/>
                                 <field name="currency_id" invisible="1"/>
                             </group>
                             

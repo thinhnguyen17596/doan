@@ -8,10 +8,10 @@ access_invoice_detail_manager,access_invoice_detail_manager,motel_management.mod
 access_my_price_user,access_my_price_user,motel_management.model_my_price,motel_management.group_motel_user,1,0,0,0
 access_my_price_manager,access_my_price_manager,motel_management.model_my_price,motel_management.group_motel_manager,1,1,1,1
 
-access_my_user_user,access_my_user_user,motel_management.model_my_user,motel_management.group_motel_user,1,1,0,0
+access_my_user_user,access_my_user_user,motel_management.model_my_user,motel_management.group_motel_user,1,0,0,0
 access_my_user_manager,access_my_user_manager,motel_management.model_my_user,motel_management.group_motel_manager,1,1,1,1
 
-access_report_user,access_report_user,motel_management.model_report,motel_management.group_motel_user,1,1,1,0
+access_report_user,access_report_user,motel_management.model_report,motel_management.group_motel_user,1,0,0,0
 access_report_manager,access_report_manager,motel_management.model_report,motel_management.group_motel_manager,1,1,1,1
 
 access_room_motel_user,access_room_motel_user,motel_management.model_room_motel,motel_management.group_motel_user,1,0,0,0

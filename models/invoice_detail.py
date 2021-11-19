@@ -22,7 +22,7 @@ class InvoiceDetail(models.Model):
 	def get_total_elec(self):
 		for bill in self:
 			bill.total_elec = bill.num_elec_end_month - bill.num_elec_begin_month
-	
+
 	@api.depends("num_water_begin_month", 'num_water_end_month')
 	def get_total_water(self):
 		for bill in self:
@@ -34,8 +34,10 @@ class InvoiceDetail(models.Model):
 			self.is_old_invoice = 1
 		else:
 			self.is_old_invoice = 0
-	
-	
+
+	def write(self, vals):
+		print(vals)
+		return super(InvoiceDetail, self).write(vals)
 	
 	@api.onchange('num_water_end_month', 'num_elec_end_month')
 	def _get_num_elec_end_month(self):
@@ -44,7 +46,7 @@ class InvoiceDetail(models.Model):
 		list_invoice = self.env.cr.fetchall()
 		print('phòng', room_id)
 		print("danh sách invoice", list_invoice)
-		
+
 		if len(list_invoice) >= 1:
 			id_record_latest = list_invoice[0]
 			print('Record mới nhất', id_record_latest)
@@ -63,7 +65,7 @@ class InvoiceDetail(models.Model):
 					print(obj_invoice_detail.num_elec_end_month)
 				else:
 					pass
-		
+
 		else:
 			pass
 	

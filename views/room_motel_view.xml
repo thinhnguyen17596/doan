@@ -8,7 +8,7 @@
                     <search string="Phòng">
                         <field name="name" string="Phòng trọ" filter_domain="[('name','ilike',self)]"/>
                         <group expand="0" string="Group By">
-                            <filter name="group_room_lt" string="Phòng không có người" domain="[('sum_user','&lt;', 0)]"/>
+                            <filter name="group_room_lt" string="Phòng không có người" domain="[('sum_user','=', 0)]"/>
                             <filter name="group_room_gt" string="Phòng đông người (lớn hơn 3)" domain="[('sum_user','&gt;', 3)]"/>
                         </group>
                     </search>
@@ -24,6 +24,7 @@
                 <field name="phone_number"/>
                 <field name="id_user"/>
                 <field name="sum_user"/>
+                <field name="max_num_users"/>
                 <field name="id"/>
                 <templates>
                     <t t-name="kanban-box">
@@ -55,15 +56,15 @@
             <field name="name">room_motel_view_tree</field>
             <field name="model">room.motel</field>
             <field name="arch" type="xml">
-                <tree string="room_motel_tree"
-                decoration-success="sum_user == 0" decoration-warning="sum_user &gt;= 1"
-                >
+                <tree string="room_motel_tree" decoration-success="sum_user == 0" decoration-warning="sum_user &gt;= 1">
                     <field name="name"/>
                     <field name="phone_number"/>
                     <field name="id_user"/>
                     <field name="sum_user"/>
-                    <field name="user_ids"/>
                     <field name="id_price"/>
+                    <field name="max_num_users"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
                 </tree>
             </field>
         </record>
@@ -82,10 +83,14 @@
                             <group>
                                 <field name="name"/>
                                 <field name="phone_number"/>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+
                             </group>
                             <group>
                                 <field name="id_user"/>
                                 <field name="id_price"/>
+                                <field name="max_num_users"/>
                             </group>
                             
                             <field name="user_ids"/>
